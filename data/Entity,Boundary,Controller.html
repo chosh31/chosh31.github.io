@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+<body>
+<div id="post-view80139158542" class="post-view pcol2 _param(1)">
+<p style="font-weight: bold;">분석 단계에서 사용되는 클래스의 타입</p><ul><li>Entity, Boundary, Control</li></ul><p style="font-weight: bold;">클래스 타입 구분 목적</p><ul><li>변경사항 발생 시 수정해야 할 부분을 타입별 클래스로 국한시키기 위함 <br></li></ul><p><br></p><p style="font-weight: bold;">Entity 클래스</p><ul><li>시스템이 장기간 동안 유지해야 하는 Information을 모델</li><li>유스케이스의 이벤트 흐름이 수행되는 과정에서 영속적으로 유지되어야 할 정보를 표현</li><li>ERD의 중요 엔티티의 많은 부분이 Entity 클래스로 정의될 수 있음</li><li>유스케이스 정의서로부터 클래스를 식별 가능</li><li>구현 시, DAO, DTO, Manager 등으로 매핑됨<br></li></ul><p style="font-weight: bold;">Boundary 클래스</p><ul><li>인터페이스 부분의 Presentation과 이와 관련된 Behavior와 Information을 모델링</li><li>시스템 내부와 
+외부 액터 사이의 중재 역할을 담당</li><li>Boundary 클래스는 시스템 경계(Boundary)에서 나타</li><li>주로 User Interface, System 
+Interface, Device Interface로 표현됨</li><ul><li>User Interface: 사용자와 시스템 간의 상호작용에서 
+사용자에게 보여지는 부분을 말하며 윈도우, 웹 클라이언트 페이지 등으로 구현됨<br></li><li>System Interface: 는 외부 시스템과 
+내부 시스템간의 상호 작용을 정의할 때 도출되며 레거시(Legacy) 시스템의 인터페이스를 위한 API 등이 클래스 단위가 됨</li><li>Device Interface: 외부 이벤트를 감지하는 디바이스 또는 센서와의 상호 작용을 정의하기 위해 활용됨</li></ul><li> Boundary 클래스는 화면 분석의 결과와 상호검증 작업을 거쳐 정제할 것</li><li>화면 분석 액티비티의 결과를 
+Boundary 클래스로 반영하는 것이 유리</li><li>화면 분석의 결과가 유스케이스 분석을 통해 도출되는 내용보다 상세하고 
+실질적임</li><li>단, 화면 분석의 결과물이 업무 분석의 모든 유스케이스를 커버할
+ 수 있어야함</li><li>구현 시, Action, JSP 등으로 매핑됨<br></li></ul><p style="font-weight: bold;">Control 클래스</p><ul><li>어떤 특정 객체에 연관되지 않은 기능을 모델링</li><li>여러 Entity 클래스의 오퍼레이션과 계산 수행, Boundary 클래스로의 결과 리턴 등의 Behavior들로 구성된 기능에 해당</li><li>유스케이스 내의 처리 흐름을 제어,
+ 조정하거나 트랜잭션을 관리하는데 사용되는 클래스</li><li>유스케이스정의서에 표현된 처리흐름(Flow of 
+Events)에서의 흐름(Flow)을 가지는 클래스</li><li>Control 클래스를 정의 시, 시스템이 제공하는 주요 기능 흐름
+ 정의가 가능하여 시스템 이해에 도움을 줌<br></li><li>Boundary 클래스와 Entity 클래스를 독립적으로 구현하는 조정 역할을 하여, 변경사항 수정 시에 안정적으로 시스템 구조를 유지할 수 있는 이점이 있음</li><li>일반적으로 초기에는 하나의 유스케이스에 하나의 Control 클래스를 정의하고 이후 정제과정에서 
+Control 클래스의 통합 또는 분할의 조정과정을 거치게 됨</li><li>이미 분석패키지를 도출한 경우에는 프로젝트의 판단에 따라 
+분석패키지(특히 유스케이스 패키지) 단위로 Control 클래스를 도출하여 작업하는 것이 유리</li><li>이 방법은 Control 클래스가 갖게 될 
+중복된 행위도출을 사전에 방지하고 설계단계에 이 클래스 그대로 활용할 수 있는 장점이 있음</li><li>구현 시, 비즈니스 로직을 담고 있는 EJB, Servlet, POJO, Service 클래스 등으로 매핑됨<br></li></ul></div>
+</body>
+</html>

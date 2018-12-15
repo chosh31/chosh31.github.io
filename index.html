@@ -1,8 +1,488 @@
+﻿
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>home</title>
-  </head>
-  <body>
-    chosh31.github.io
-  </body>
+<head>
+<title>My Link</title>
+<style type="text/css">
+* {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	direction: rtl; /* right to left*/
+	color: white;
+}
+
+body {
+	background:url("");
+	background-repeat: no-repeat; /* 스크롤 영향 없음*/
+	background-position: center;
+	background-attachment: fixed;
+	background-color: Black;
+	background-size: 100% auto;
+	width: 900px;
+	margin: 20px auto;
+}
+
+header {
+	position: fixed;
+}
+
+header h1 {
+	margin: 10px 0;
+	width: 200px;
+	text-indent: 20px;
+}
+
+header h1 {
+	margin: 20px 5px;
+	width: 100px;
+	text-indent: 20px;
+}
+
+header div {
+	margin-bottom: 20px;
+	margin-right: 20px;
+}
+
+header nav {
+	margin-bottom: 20px;
+}
+
+header nav ul {
+	
+}
+
+header nav ul li {
+	
+}
+
+header nav ul li a,section section article ul li a,header nav div a {
+	display: block;
+	text-decoration: none;
+	background: rgba(20, 20, 30, 0.9);
+	height: 40px;
+	width: 200px;
+	border-radius: 10px;
+	margin-bottom: 5px;
+	text-indent: 20px; /*뒤쪽 탭 띄우기*/
+	line-height: 40px; /* 줄 높이 주므로 중간에 위치!*/
+}
+
+section section article ul li a {
+	width: 300px;
+	font-size: 9pt;
+}
+
+header nav ul li a:hover,section section article ul li a:hover,header nav div a:hover
+	{
+	background: rgba(80, 80, 100, 0.8);
+	color: #CC99FF;
+}
+
+header nav section {
+	
+}
+
+header nav section img {
+	margin-top: 9px;
+	margin-right: 2px;
+	margin-left: 2px;
+}
+
+header nav div {
+	margin: 0;
+	width: 200px;
+	font-family: Arial;
+	font-size: 12px;
+	direction: ltr;
+}
+
+.centerSection {
+	width: 500px;
+	margin-right: 220px;
+	background: rgba(80, 80, 100, 0.4);
+	border-radius: 10px;
+	position: left;
+}
+
+section article { /*background:rgba(80,80,100,0.4);*/
+	border-radius: 10px;
+	margin: 10px;
+	padding-top:15px;
+}
+
+section article h1 {
+	font-family: Arial Black; /*굵은 Arial*/
+	font-size: 20px;
+	margin: 10px;
+}
+
+section article p {
+	font-family: Arial;
+	font-size: 12px;
+	margin: 5px;
+}
+
+section article img {
+	width: 80%;
+	height: 80%;
+	border-radius: 100px;
+	background: 'red';
+}
+
+section article hr {
+	height: 1px;
+	margin: 20px;
+}
+
+.top_margin30{
+	margin-top: 30px;
+}
+
+.footer_padding{
+	padding-bottom:10%;
+}
+
+.footer_img_padding{
+	padding-top:80%;
+}
+
+#clock {
+	margin: 0;
+}
+
+#weather {
+	position: absolute;
+	margin-right: 750px;
+	border-radius: 20px;
+}
+#footer{
+}
+#bigdata_img{
+	width: 80%;
+}
+#question_img{
+	width: 20%;
+}
+</style>
+<script src="http://code.jquery.com/jquery-1.8.0.js"></script>
+<script>
+	function ins_wed(xml){
+		if($(xml).find("hour").length > 0){ 
+			$(xml).find("hour").each(function(index, element, array){
+				if(index == 0){
+					console.log($(element).text());
+					$(xml).find("wfKor").each(function(index, element, array){
+						if(index == 0){
+							var wethers=$(element).text();
+							console.log(wethers);
+							if(wethers =="맑음") $('#img').attr('src','img/weather_32_1.png');
+							else if(wethers == "흐림") $('#img').attr('src','img/weather_32_2.png');
+							else if(wethers == "구름 조금") $('#img').attr('src','img/weather_32_3.png');
+							else if(wethers == "구름 많음") $('#img').attr('src','img/weather_32_3.png');
+							else if(wethers == "비") $('#img').attr('src','img/weather_32_5.png');
+							else if(wethers == "눈") $('#img').attr('src','img/weather_32_6.png');
+							else if(wethers == "눈/비") $('#img').attr('src','img/weather_32_7.png');
+							else alert("날씨가 이상해요 ~.~");
+						}
+					});
+					var temp = $($(xml).find("temp")[0]).text();
+					console.log(temp);
+					$('#values').text(temp);
+					if(temp > 0)	$('#values').css("color","pink");
+					else			$('#values').css("color","skyblue");
+				}
+			});
+		}
+	}
+	
+	function ins_wed_jsonp(returnData){
+		returnData
+	}
+	
+	function jsonXMLWether(urls, datas){
+		$.ajax({
+			type: 'get'
+			, dataType: "xml"
+			, url: urls
+			, data: datas
+			, success: function(xml){
+				ins_wed(xml);
+			}
+			, error: function(xhr, status, error) {alert('서버와의 통신 문제로 날씨 정보를 가져오지 못했습니다. 잠시 후 다시 시도해 주세요.'); }
+		});
+	}
+	
+	function jsonpWether(urls){
+		$.ajax({
+			type: 'get'
+			, dataType: "jsonp"
+			, url: urls
+			, success: function(json){
+				console.log(json);
+				var temp = json.current_observation.temp_c;
+				$('#values').text(temp);
+				if(temp > 0)	$('#values').css("color","pink");
+				else			$('#values').css("color","skyblue");
+			}
+			, error: function(xhr, status, error) {alert('서버와의 통신 문제로 날씨 정보를 가져오지 못했습니다. 잠시 후 다시 시도해 주세요.'); }
+		});
+	}
+		
+	/*function wed_inf(){
+	$.ajax({
+			type: 'get'
+			, dataType: "xml"
+			, url: "http://www.kma.go.kr/wid/queryDFS.jsp"
+			, data: "gridx=60&gridy=125"
+			, success: function(xml){
+				console.log(xml);
+				console.log($(xml).find("hour").text());
+				if($(xml).find("hour").length > 0){ 
+					$(xml).find("hour").each(function(index, element, array){
+						if(index == 0){
+							console.log($(element).text());
+							$(xml).find("wfKor").each(function(index, element, array){
+								if(index == 0){
+									var wethers=$(element).text();
+									console.log(wethers);
+									if(wethers =="맑음") $('#img').attr('src','img/weather_32_1.png');
+									else if(wethers == "흐림") $('#img').attr('src','img/weather_32_2.png');
+									else if(wethers == "구름 조금") $('#img').attr('src','img/weather_32_3.png');
+									else if(wethers == "구름 많음") $('#img').attr('src','img/weather_32_3.png');
+									else if(wethers == "비") $('#img').attr('src','img/weather_32_5.png');
+									else if(wethers == "눈") $('#img').attr('src','img/weather_32_6.png');
+									else if(wethers == "눈/비") $('#img').attr('src','img/weather_32_7.png');
+									else alert("날씨가 이상해요 ~.~");
+								}
+							});
+							var temp = $($(xml).find("temp")[0]).text();
+							console.log(temp);
+							$('#values').text(temp);
+							if(temp > 0)	$('#values').css("color","pink");
+							else				$('#values').css("color","skyblue");
+							
+						}
+					});
+				}
+			}
+			, error: function(xhr, status, error) {alert('서버와의 통신 문제로 날씨 정보를 가져오지 못했습니다. 잠시 후 다시 시도해 주세요.'); }
+		});*/
+		/*$.ajax({
+			type: 'get'
+			, dataType: "jsonp"
+			, url: "http://api.wunderground.com/api/bfad2af99c700d2a/geolookup/conditions/lang:KR/q/Korea/Seoul.json"//KEY =bfad2af99c700d2a 
+			, success: function(xml){
+				console.log(xml);
+			}
+			, error: function(xhr, status, error) {alert('서버와의 통신 문제로 날씨 정보를 가져오지 못했습니다. 잠시 후 다시 시도해 주세요.'); }
+		});*/
+	
+	function goToByScroll(id){
+		$('html, body').animate({
+			scrollTop: $("#"+id).offset().top},'slow');
+	}
+	
+	$(document).ready(function() {
+		//jsonXMLWether("http://www.kma.go.kr/wid/queryDFS.jsp", "gridx=60&gridy=125");
+		jsonpWether("http://api.wunderground.com/api/bfad2af99c700d2a/geolookup/conditions/lang:KR/q/Korea/Seoul.json");
+		//jsonpWether("http://api.wunderground.com/api/bfad2af99c700d2a/forecast/lang:KR/q/Korea/Seoul.json");
+		setInterval(function() {
+			//jsonXMLWether("http://www.kma.go.kr/wid/queryDFS.jsp", "gridx=60&gridy=125");
+			jsonpWether("http://api.wunderground.com/api/bfad2af99c700d2a/geolookup/conditions/lang:KR/q/Korea/Seoul.json");
+		}, 1000*60*5);
+		
+		setInterval(function() {
+			$('#roll>a').first().appendTo($('section#roll'));
+		}, 3000);
+
+	});
+</script>
+</head>
+<body>
+	<header>
+		<h1>My Home</h1>
+		<div id='weather'>
+			<h3>Today's Condition</h3>
+			<h5> 날씨 </h5>
+			<h6 id=wether_text> 현재 기온은 <span id=values></span>도 입니다.</h6>
+			<img id='img'
+				style='background-color: white; padding: 10px 0px; border-radius: 20px; margin-bottom: 10px;'
+				width=160; />
+			<object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000'
+				width='160' height='320' id='external686149'
+				codebase='http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0'>
+				<param name='movie'
+					value='http://www.uniqlo.com/calendar/swf/uqcal_bp_loader.swf?cID=KR&aID=SEO&bgm=0&size=small&bID=686149' />
+				<param name='bgcolor' value='#ffffff'>
+				<param name='quality' value='high' />
+				<param name='allowScriptAccess' value='always' />
+				<embed
+					src='http://www.uniqlo.com/calendar/swf/uqcal_bp_loader.swf?cID=KR&aID=SEO&bgm=0&size=small&bID=686149'
+					width='160' height='320' bgcolor='#ffffff' quality='high'
+					allowScriptAccess='always'
+					pluginspage='http://www.adobe.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash'></embed>
+			</object>
+		</div>
+		<div id='clock'>
+			<embed src="http://aaa.jugem.cc/template/clock/clock_20.swf" width="200" height="20" type="application/x-shockwave-flash" invokeurls="http://www.naver.com" allowscriptaccess="never" wmode="transparent" autostart="false">
+		</div>
+		<nav>
+			<ul>
+				<li><a href="javascript:void(0)" onClick="goToByScroll('top')">Intro Home</a></li>
+				<li><a href="javascript:void(0)" onClick="goToByScroll('programming')">프로그래밍 필요 사이트</a></li>
+				<li><a href="javascript:void(0)" onClick="goToByScroll('searchLink')">검색 사이트</a></li>
+				<li><a href="javascript:void(0)" onClick="goToByScroll('studyLink')">강 좌</a></li>
+				<li><a href="javascript:void(0)" onClick="goToByScroll('awt')">AWT 관련 강좌</a></li>
+				<li><a href="javascript:void(0)" onClick="goToByScroll('ppts')">My PPTs</a></li>
+				<li><a href="javascript:void(0)" onClick="goToByScroll('utilPackSite')">Util Pack</a></li>
+				<li><a href="javascript:void(0)" onClick="goToByScroll('footer')">Footer</a></li>
+				<!--<li><a href="javascript:void(0)" onClick="goToByScroll()"></a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"></a></li>-->
+			</ul>
+			<section id='roll'>
+				<a href='http://www.facebook.com' target='_blink'><img src="img/FaceBook.png" /></a> <a
+					href='http://www.twitter.com' target='_blink'><img src="img/Tweet.png" /></a> <a
+					href='https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/?tab%3Dwm&scc=1&ltmpl=default&ltmplcache=2' target='_blink'><img
+					src="img/googlemail-64.png" width='32px' height='32' /></a> <a><img
+					src="img/FriendsFeed.png" /></a> <a><img src="img/RSS.png" /></a>
+
+			</section>
+			<div>
+				<a href='http://airlueos.blog.me' target='_blink'>My Naver Blog
+					CSS</a>
+			</div>
+		</nav>
+		<div id='radio'>
+			<embed id="__sayradiowidget"
+				src="http://dl.sayclub.kr/sayclub/sayradio/SayRadioWidgetSmall.swf"
+				width="166" height="103" wmode="transparent"></embed>
+		</div>
+	</header>
+
+	<section class='centerSection'>
+		<section>
+			<article id='top'>
+				<h1>Intro Home</h1>
+				<img src='img/biinnari_oFF.gif' />
+				
+				<p>제 홈페이지 입니다. 스터디를 위한 기본적인 링크들로 이루어저 있습니다.^^</p>
+				<hr />
+			</article>
+			<article id='programming'>
+				<h1>프로그래밍 필요 링크</h1>
+				<ul>
+					<li><a href='http://docs.oracle.com/javase/7/docs/api/'
+						target='_blink'>java SE 7 API docs </a></li>
+					<li><a href='http://xrath.com/javase/ko/6/docs/ko/api/index.html'
+						target='_blink'>java SE 6 API docs 번역 </a></li>
+					<li><a href='https://developer.mozilla.org/ko/'
+						target='_blink'> 모질라 라이브러리 </a></li>
+					<li><a href='http://www.apache.org/'
+						target='_blink'>아파치 사이트 - Apache Tomcat </a></li>
+					<li><a href='http://www.springsource.org/' target='_blink'>
+							Spring framework 사이트 </a></li>
+					<li><a href='http://www.json.org' target='_blink'> JSON
+							페이지 </a></li>
+					<li><a href='http://w3.org' target='_blink'> W3C - HTML&CSS
+							관련</a></li>
+					<li><a href='http://www.charlesproxy.com/' target='_blink'>
+							Charles Proxy </a></li>
+					<li><a href='http://www.w3schools.com/html5' target='_blink'>
+							HTML5 링크 </a></li>
+					<li><a href='https://dev.naver.com/' target='_blink'> 네이버
+							Naver 개발자 센터 - 맵, 오픈 API 등 </a></li>
+					<li><a href='http://jquery.com/' target='_blink'> jQuery
+							SRC, cdn 호스팅 주소 </a></li>
+				</ul>
+				<hr />
+			</article>
+			<article id='searchLink'>
+				<h1>검색 사이트 링크</h1>
+				<ul>
+					<li><a href='http://www.naver.com' target='_blink'> 네이버 </a></li>
+					<li><a href='http://google.co.kr' target='_blink'> 구글 </a></li>
+					<li><a href='http://www.daum.net' target='_blink'> 다음 </a></li>
+					<li><a href='http://zdnet.co.kr' target='_blink'> 지디넷 코리아 </a></li>
+					<li><a href='http://ko.wikipedia.org/wiki/Special:Search?search=&go=Go' target='_blink'> 위키 백과 </a></li>
+				</ul>
+				<hr />
+			</article>
+			<article id='studyLink'>
+				<h1>강좌 링크</h1>
+				<ul>
+					<li><a href='http://blog.eomjinyoung.com/' target='_blink'>
+							엄진영 강사님 스터디 페이지 </a></li>
+					<li><a href='http://www.androidside.com/' target='_blink'>안드로이드
+							관련 강좌 및 공모전</a></li>
+					<li><a href='http://rintiantta.blog.me/' target='_blink'>모던웹
+							홈피 - CSS, JS 등 강좌 </a></li>
+					<li><a href='http://ymy203.blog.me/70128839394'
+						target='_blink'> HTML 태그 </a></li>
+					<li><a href='http://blog.naver.com/susieredrum/150143093316'
+						target='_blink'> DIV와 SPAN 태그 차이점 & HTML5 강좌 </a></li>
+					<li><a href='http://musiclife.tistory.com/193' target='_blink'>
+							FORM 태그 속성들 </a></li>
+					<li><a href='http://gif00.com.ne.kr/tag/font.html'
+						target='_blink'> HTML 폰트 태그 사이트 1 </a></li>
+					<li><a href='http://cssdesign.kr/forum/viewtopic.php?id=573'
+						target='_blink'> HTML 폰트 태그 사이트 2 </a></li>
+					<li><a href='data/CSS3 Help Sheet outlined.pdf' target='_blink'><big>CSS3</big>
+							속성들 </a></li>
+					<li><a href='data/CSS Help Sheet outlined.pdf' target='_blink'><big>CSS2</big>
+							속성들 </a></li>
+					<li><a href='data/colorSheet.html' target='_blink'> 색상표 </a></li>
+					<li><a href='data/eclipse_macro.html' target='_blink'> 이클립스 단축키</a></li>
+					<li><a href='data/class_loading.html' target='_blink'> 클래스
+							초기화블럭과 인스턴스초기화 블럭 </a></li>
+					<li><a href='data/Entity,Boundary,Controller.html' target='_blink'>
+							Entity, Boundary, Controller</a></li>
+				</ul>
+				<hr />
+			</article>
+			<article id='awt'>
+				<h1>AWT 관련 강좌</h1>
+				<ul>
+					<li><a href='data/Layout Manager.htm' target='_blink'>Layout Manager</a></li>
+					<li><a href='data/BoxLayout.htm' target='_blink'>Box Layout </a></li>
+				</ul>
+				<hr />
+			</article>
+			<article id='ppts'>
+				<h1>My PPTs</h1>
+				<ul>
+					<li><a href='#' target='_blink'>Ex ppt</a></li>
+				</ul>
+				<hr />
+			</article>
+			<article id='utilPackSite'>
+				<h1> Util pack </h1>
+				<ul>
+				<li><a href='http://prezi.com/' target='_blink'>
+						Prezi </a></li>
+
+				
+				<li><a href='http://www.tagcloud-generator.com/' target='_blink'>Tag Cloud </a></li>
+					<li><a href='http://www.photo.xrr.kr/' target='_blink'>포토샵
+							웹 버전 </a></li>
+					<li><a href='http://www.html5test.com' target='_blink'>
+							HTML5 기능 test </a></li>
+				</ul>
+				<hr />
+			</article>
+			<article id='footer' class="footer_padding">
+				<h1>Footer</h1>
+				<img id="bigdata_img" src="img/bigdata.jpg" />
+				<img id="question_img" class="footer_img_padding" src="img/question.jpg"/>
+				<p >&copy;copyright MyHome since 2012</p>
+				<hr />
+			</article>
+		</section>
+	</section>
+
+	<footer>
+		<h1></h1>
+	</footer>
+</body>
 </html>
